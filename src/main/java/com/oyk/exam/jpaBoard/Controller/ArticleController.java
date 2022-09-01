@@ -33,6 +33,9 @@ public class ArticleController {
     @RequestMapping("/doModify")
     @ResponseBody
     public String doModify(long id, String body, String title) {
+        if(articleRepository.existsById(id) == false) {
+            return "게시물이 이미 삭제되었거나 존재하지 않습니다.";
+        }
 
         if(title == null) {
             return "수정할 제목을 입력해주세요.";
@@ -58,5 +61,27 @@ public class ArticleController {
         articleRepository.deleteById(id);
 
         return "%d번 게시물이 삭제되었습니다.".formatted(id);
+    }
+
+    @RequestMapping("/doWrite")
+    @ResponseBody
+    public String doWrite(String body, String title) {
+        if(title == null) {
+            return "제목을 입력해주세요.";
+        }
+
+        if(body == null) {
+            return "내용을 입력해주세요.";
+        }
+
+        Article article = new Article();
+        article.setBody(body);
+        article.setTitle(title);
+        article.setRegDate(LocalDateTime.now());
+        article.setUpdateDate(LocalDateTime.now());
+
+        articleRepository.save(article);
+
+        return "%d번 게시물이 생성되었습니다.".formatted(article.getId());
     }
 }
