@@ -26,6 +26,7 @@ public class UserController {
             return "이메일을 입력해주세요.";
         }
         email = email.trim();
+
         if(password == null || password.trim().length() == 0) {
             return "비밀번호를 입력해주세요.";
         }
