@@ -1,7 +1,9 @@
 package com.oyk.exam.jpaBoard.Controller;
 
 import com.oyk.exam.jpaBoard.Dao.ArticleRepository;
+import com.oyk.exam.jpaBoard.Dao.UserRepository;
 import com.oyk.exam.jpaBoard.Domain.Article;
+import com.oyk.exam.jpaBoard.Domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,9 @@ import java.util.Optional;
 public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @RequestMapping("/list")
     @ResponseBody
@@ -79,6 +84,9 @@ public class ArticleController {
         article.setTitle(title);
         article.setRegDate(LocalDateTime.now());
         article.setUpdateDate(LocalDateTime.now());
+
+        User user = userRepository.findById(1L).get();
+        article.setUser(user);
 
         articleRepository.save(article);
 
