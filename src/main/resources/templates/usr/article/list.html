@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>게시물 목록</title>
 </head>
 <body>
     <h1>게시물 목록</h1>
-    <ul>
-        <li>내용 1</li>
-        <li>내용 2</li>
-        <li>내용 3</li>
-    </ul>
+    <div th:each="article : ${articleList}">
+        <ul>
+            <li th:text="${article.title}"></li>
+            <li th:text="${article.body}"></li>
+        </ul>
+    </div>
+
+
 </body>
 </html>
