@@ -50,6 +50,24 @@ public class UserController {
         return "%s님 환영합니다.".formatted(user.get().getName());
     }
 
+    @RequestMapping("/doLogout")
+    @ResponseBody
+    public String doLogout(HttpSession session) {
+        boolean isLogined = false;
+
+        if(session.getAttribute("loginedUserId") != null) {
+            isLogined =true;
+        }
+
+        if(isLogined == false) {
+            return "이미 로그아웃 되었습니다.";
+        }
+
+        session.removeAttribute("loginedUserId");
+
+        return "로그아웃 되었습니다.";
+    }
+
     @RequestMapping("/doJoin")
     @ResponseBody
     public String doJoin(String name, String email, String password) {
