@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -44,8 +45,8 @@ public class UserController {
             return "비밀번호가 맞지 않습니다. 다시 입력해주세요.";
         }
 
-        Cookie cookie = new Cookie("loginedUserId", user.get().getId() + "");
-        resp.addCookie(cookie);
+        HttpSession session = req.getSession();
+        session.setAttribute("loginedUserId", user.get().getId());
 
         return "%s님 환영합니다.".formatted(user.get().getName());
     }
