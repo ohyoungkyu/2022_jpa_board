@@ -32,12 +32,6 @@ public class ArticleController {
         return "usr/article/list";
     }
 
-    @RequestMapping("/list2")
-    @ResponseBody
-    public List<Article> showList2() {
-        return articleRepository.findAll();
-    }
-
     @RequestMapping("/detail")
     @ResponseBody
     public Article showDetail(long id) {
@@ -76,6 +70,11 @@ public class ArticleController {
         articleRepository.deleteById(id);
 
         return "%d번 게시물이 삭제되었습니다.".formatted(id);
+    }
+
+    @RequestMapping("/write")
+    public String showWrite() {
+        return "usr/article/write";
     }
 
     @RequestMapping("/doWrite")
