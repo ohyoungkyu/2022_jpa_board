@@ -6,13 +6,10 @@
 </head>
 <body>
     <h1>게시물 목록</h1>
-    <div th:each="article : ${articleList}">
         <ul>
-            <li th:text="${article.title}"></li>
-            <li th:text="${article.body}"></li>
+            <li th:each="article : ${articleList}">
+                [[${article.id}]] / [[${article.title}]] / [[${article.body}]]
+            </li>
         </ul>
-    </div>
-
-
 </body>
 </html>

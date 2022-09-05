@@ -2,6 +2,7 @@ package com.oyk.exam.jpaBoard.Domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@ToString
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +22,8 @@ public class Article {
 
     @ManyToOne
     private User user;
+
+    public String toString() {
+        return "id : %d".formatted(id);
+    }
 }
