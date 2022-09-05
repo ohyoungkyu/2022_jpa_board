@@ -12,7 +12,9 @@
     <h1>게시물 목록</h1>
         <ul>
             <li th:each="article : ${articleList}">
-                [[${article.id}]] / [[${article.title}]] / [[${article.body}]]
+                <a th:href="@{detail(id=${article.id})}">
+                [[${article.id}]] / [[${article.title}]] / [[${article.regDate}]]
+                </a>
             </li>
         </ul>
 
