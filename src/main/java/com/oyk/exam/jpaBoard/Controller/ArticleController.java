@@ -54,7 +54,12 @@ public class ArticleController {
 
         articleRepository.save(article);
 
-        return "%d번 게시물이 수정되었습니다.".formatted(id);
+        return """
+                <script>
+                alert('%d번 게시물이 수정되었습니다.');
+                location.replace('detail?id=%d');
+                </script>
+                """.formatted(article.getId(), article.getId());
     }
 
     @RequestMapping("/doDelete")
