@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -112,7 +113,15 @@ public class ArticleController {
 
     @RequestMapping("/doWrite")
     @ResponseBody
-    public String doWrite(String body, String title) {
+    public String doWrite(String body, String title, HttpSession session) {
+        boolean islogined = false;
+        long isloginedUserId = 0;
+
+        if(session.getAttribute("loginedUserId") != null) {
+            islogined = true;
+            isloginedUserId = (long)session.getAttribute("loginedUserId");
+        }
+
         if(title == null || title.trim().length() == 0) {
             return "제목을 입력해주세요.";
         }
@@ -131,7 +140,7 @@ public class ArticleController {
         article.setRegDate(LocalDateTime.now());
         article.setUpdateDate(LocalDateTime.now());
 
-        User user = userRepository.findById(1L).get();
+        User user = userRepository.findById(isloginedUserId).get();
         article.setUser(user);
 
         articleRepository.save(article);
