@@ -126,6 +126,15 @@ public class ArticleController {
             return "제목을 입력해주세요.";
         }
 
+        if( islogined == false ) {
+            return """
+                <script>
+                alert('로그인 후 이용해주세요.');
+                history.back();
+                </script>
+                """;
+        }
+
         title = title.trim();
 
         if(body == null || body.trim().length() == 0) {
