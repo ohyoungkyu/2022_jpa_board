@@ -87,7 +87,20 @@ public class ArticleController {
     }
 
     @RequestMapping("/write")
-    public String showWrite() {
+    public String showWrite(HttpSession session, Model model) {
+            boolean islogined = false;
+            long isloginedUserId = 0;
+
+            if(session.getAttribute("loginedUserId") != null) {
+                islogined = true;
+                isloginedUserId = (long)session.getAttribute("loginedUserId");
+            }
+
+            if( islogined == false ) {
+                model.addAttribute("msg", "로그인 후 이용해주세요.");
+                model.addAttribute("historyBack", true);
+                return "common/js";
+            }
         return "usr/article/write";
     }
 
