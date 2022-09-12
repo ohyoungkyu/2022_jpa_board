@@ -35,24 +35,42 @@ public class ArticleController {
 
     @RequestMapping("/doModify")
     @ResponseBody
-    public String doModify(long id, String body, String title) {
-        if(articleRepository.existsById(id) == false) {
-            return "게시물이 이미 삭제되었거나 존재하지 않습니다.";
+    public String doModify(long id, String body, String title,HttpSession session) {
+        boolean islogined = false;
+        long isloginedUserId = 0;
+
+        if(session.getAttribute("loginedUserId") != null) {
+            islogined = true;
+            isloginedUserId = (long)session.getAttribute("loginedUserId");
         }
 
-        if(title == null) {
-            return "수정할 제목을 입력해주세요.";
-        }
-
-        if(body == null) {
-            return "수정할 내용을 입력해주세요.";
+        if( islogined == false ) {
+            return """
+                <script>
+                alert('로그인 후 이용해주세요.');
+                history.back();
+                </script>
+                """;
         }
 
         Article article = articleRepository.findById(id).get();
-        article.setBody(body);
-        article.setTitle(title);
-        article.setUpdateDate(LocalDateTime.now());
 
+        if( article.getUser().getId() != isloginedUserId ) {
+            return """
+                    <script>
+                    alert('권한이 없습니다.');
+                    history.back();
+                    </script>
+                    """.formatted(id);
+        }
+
+        if (title != null) {
+            article.setTitle(title);
+        }
+        if (body != null) {
+            article.setBody(body);
+        }
+        article.setUpdateDate(LocalDateTime.now());
         articleRepository.save(article);
 
         return """
